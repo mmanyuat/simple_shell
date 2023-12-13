@@ -50,6 +50,8 @@ int main(void)
 	wait(&status);
 	}
 	}
+	free(argv);
+	free(cmd);
 	return (0);
 }
 
