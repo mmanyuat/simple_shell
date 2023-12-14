@@ -15,7 +15,7 @@
 void execute_cmd(char *cmd)
 {
 	char **argv;
-	int status;
+	int status, exit_status;
 	pid_t my_pid;
 
 	argv = print_token(cmd, " \t\n");
@@ -37,7 +37,8 @@ void execute_cmd(char *cmd)
 	wait(&status);
 	if (WIFEXITED(status))
 	{
-	int exit_status = WEXITSTATUS(status);
+	exit_status = WEXITSTATUS(status);
+
 	if (exit_status != 0)
 	{
 		fprintf(stderr, "./shell: %s: Cmd failed %d\n", argv[0], exit_status);
@@ -60,9 +61,6 @@ int main(void)
 	char *cmd = NULL;
 	size_t n = 0;
 	int length = 0;
-	char **argv;
-	pid_t my_pid;
-	int status;
 
 	while (1)
 	{
@@ -82,9 +80,8 @@ int main(void)
 	_exit(0);
 	}
 	execute_cmd(cmd);
-	}
-	free(argv);
 	free(cmd);
+	}
 	return (0);
 }
 
