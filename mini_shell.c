@@ -51,15 +51,12 @@ void execute_cmd(char *cmd)
 	}
 }
 /**
- * main - function to build mini shell
+ * non_intereactive - function to build mini shell
  * Return: nothing
  */
 
-int main(int argc, char *argv[])
+void non_intereactive(void)
 {
-	(void)argv;
-	if (argc > 1)
-	{
 	char *cmd = NULL;
 	size_t n = 0;
 	ssize_t length;
@@ -72,8 +69,22 @@ int main(int argc, char *argv[])
 	cmd = NULL;
 	n = 0;
 	}
-	
 	free(cmd);
+}
+
+/**
+ * main - main function
+ * @argc: argument count
+ * @argv: argument vector
+ * Return:nothing
+ */
+
+int main(int argc, char *argv[])
+{
+	(void)argv;
+	if (argc > 1)
+	{
+	non_intereactive();
 	}
 	else
 	{
