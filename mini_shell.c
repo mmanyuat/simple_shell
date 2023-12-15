@@ -55,8 +55,28 @@ void execute_cmd(char *cmd)
  * Return: nothing
  */
 
-int main(void)
+int main(int argc, char *argv[])
 {
+	(void)argv;
+	if (argc > 1)
+	{
+	char *cmd = NULL;
+	size_t n = 0;
+	ssize_t length;
+
+	while ((length = getline(&cmd, &n, stdin)) != -1)
+	{
+	cmd[strcspn(cmd, "\n")] = '\0';
+	execute_cmd(cmd);
+	free(cmd);
+	cmd = NULL;
+	n = 0;
+	}
+	
+	free(cmd);
+	}
+	else
+	{
 	char *cmd = NULL;
 	size_t n = 0;
 	int length = 0;
@@ -73,12 +93,19 @@ int main(void)
 	free(cmd);
 	_exit(EXIT_FAILURE);
 	}
-	if (length == 1)
+	else
 	{
-	free(cmd);
-	_exit(0);
+	cmd[strcspn(cmd, "\n")] = '\0';
+	if (strcmp(cmd, "exit") == 0)
+	{
+	break;
 	}
 	execute_cmd(cmd);
+	free(cmd);
+	cmd = NULL;
+	n = 0;
+	}
+	}
 	free(cmd);
 	}
 	return (0);
