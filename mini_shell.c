@@ -24,13 +24,14 @@ void execute_cmd(char *cmd)
 	if (my_pid == -1)
 	{
 	perror("fork_error");
-	free(argv);
+	free_argv(argv);
 	_exit(EXIT_FAILURE);
 	}
 	if (my_pid == 0)
 	{
 	execve(argv[0], argv, NULL);
 	perror("error");
+	free_argv(argv);
 	}
 	else
 	{
@@ -47,8 +48,14 @@ void execute_cmd(char *cmd)
 	{
 	fprintf(stderr, "./shell: %s: cmd failed %d\n", argv[0], WTERMSIG(status));
 	}
-	free(argv);
+	else
+	{
+	perror("error");
+	free_argv(argv);
 	}
+	free_argv(argv);
+	}
+	
 }
 /**
  * non_intereactive - function to build mini shell
